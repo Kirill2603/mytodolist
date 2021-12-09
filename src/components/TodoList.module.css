@@ -1,0 +1,21 @@
+.TodoListWrapper {
+    display: inline-block;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+    background-color: rgba(136, 165, 191, 0.15);
+}
+
+.TodoListButtonBlock {
+    display: flex;
+    justify-content: space-around;
+}
+
+.TodoListWrapper h3 {
+    display: flex;
+    justify-content: center;
+}
