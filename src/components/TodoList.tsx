@@ -11,9 +11,12 @@ type TaskType = {
 type TodoListPropsType = {
     title: string
     tasks: Array<TaskType>
+    removeTask: (id: number) => void
+    // removeTask: Function
+    setFilter: (filter: "all" | "active" | "completed") => void
 }
 
-export const TodoList: React.FC<TodoListPropsType> = ({title, tasks}) => {
+export const TodoList: React.FC<TodoListPropsType> = ({title, tasks, removeTask, setFilter}) => {
     return (
         <div className={s.TodoListWrapper}>
             <h3>{title}</h3>
@@ -21,14 +24,19 @@ export const TodoList: React.FC<TodoListPropsType> = ({title, tasks}) => {
                 <input type="text"/>
                 <button>+</button>
                 <ul>
-                    <li><input type="checkbox" checked={tasks[0].isDone}/><span>{tasks[0].title}</span></li>
-                    <li><input type="checkbox" checked={tasks[1].isDone}/><span>{tasks[1].title}</span></li>
-                    <li><input type="checkbox" checked={tasks[2].isDone}/><span>{tasks[2].title}</span></li>
+                    {tasks.map((task) => {
+                        return (
+                            <li>
+                                <input type="checkbox" checked={task.isDone}/><span>{task.title}</span>
+                                <button onClick={() => removeTask(task.id)}>x</button>
+                            </li>
+                    )
+                    })}
                 </ul>
                 <div className={s.TodoListButtonBlock}>
-                    <button>All</button>
-                    <button>Active</button>
-                    <button>Completed</button>
+                    <button onClick={() => setFilter('all')}>All</button>
+                    <button onClick={() => setFilter('active')}>Active</button>
+                    <button onClick={() => setFilter('completed')}>Completed</button>
                 </div>
             </div>
         </div>
