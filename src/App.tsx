@@ -20,7 +20,7 @@ function App() {
         ]
     )
 
-    let [filter, setFilter] = useState('all')
+    let [filter, setFilter] = useState<"all" | "active" | "completed">('all')
 
     function removeTask(id: string) {
         let filteredTasks = tasks.filter((task) => task.id !== id)
@@ -65,6 +65,7 @@ function App() {
                 changeFilter={changeFilter}
                 addTask={addTask}
                 changeStatus={changeStatus}
+                filter={filter}
             />
         </div>
     );

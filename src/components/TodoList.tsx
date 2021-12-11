@@ -14,6 +14,7 @@ type TodoListPropsType = {
     changeFilter: (filter: "all" | "active" | "completed") => void
     addTask: (title: string) => void
     changeStatus: (id: string, isDone: boolean) => void
+    filter: "all" | "active" | "completed"
 }
 
 export const TodoList: React.FC<TodoListPropsType> = (
@@ -23,15 +24,18 @@ export const TodoList: React.FC<TodoListPropsType> = (
         removeTask,
         changeFilter,
         addTask,
-        changeStatus
+        changeStatus,
+        filter
     }) => {
 
     const [newTaskTitle, setNewTaskTitle] = useState('')
+    const [error, setError] = useState(false)
 
     const onChangeTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setNewTaskTitle(event.currentTarget.value)
     }
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        setError(false)
         if (event.charCode === 13) {
             addTask(newTaskTitle)
             setNewTaskTitle('')
@@ -42,7 +46,8 @@ export const TodoList: React.FC<TodoListPropsType> = (
         if (newTaskTitle.trim() !== '') {
             addTask(newTaskTitle.trim())
             setNewTaskTitle('')
-        }
+
+        } else setError(true)
 
     }
 
@@ -51,9 +56,11 @@ export const TodoList: React.FC<TodoListPropsType> = (
             <h3>{title}</h3>
             <div>
                 <input value={newTaskTitle}
+                       className={error ? s.error : ''}
                        onChange={onChangeTitleHandler}
-                       onKeyPress={onKeyPressHandler} />
+                       onKeyPress={onKeyPressHandler}/>
                 <button onClick={addTaskHandler}>+</button>
+                {error && <div className={s.errorMessage}>Field is required</div>}
                 <ul>
                     {tasks.map((task) => {
 
@@ -63,7 +70,7 @@ export const TodoList: React.FC<TodoListPropsType> = (
                         }
 
                         return (
-                            <li key={task.id}>
+                            <li key={task.id} className={task.isDone ? s.IsDone : ''}>
                                 <input type="checkbox"
                                        onChange={onChangeHandler}
                                        checked={task.isDone}/><span>{task.title}</span>
@@ -73,9 +80,15 @@ export const TodoList: React.FC<TodoListPropsType> = (
                     })}
                 </ul>
                 <div className={s.TodoListButtonBlock}>
-                    <button onClick={() => changeFilter('all')}>All</button>
-                    <button onClick={() => changeFilter('active')}>Active</button>
-                    <button onClick={() => changeFilter('completed')}>Completed</button>
+                    <button
+                        className={filter === 'all'? s.ActiveFilter : ''}
+                        onClick={() => changeFilter('all')}>All</button>
+                    <button
+                        className={filter === 'active'? s.ActiveFilter : ''}
+                        onClick={() => changeFilter('active')}>Active</button>
+                    <button
+                        className={filter === 'completed'? s.ActiveFilter : ''}
+                        onClick={() => changeFilter('completed')}>Completed</button>
                 </div>
             </div>
         </div>
