@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import s from './TodoList.module.css'
 
 type TaskType = {
@@ -26,26 +26,30 @@ export const TodoList: React.FC<TodoListPropsType> = (
 
     const [newTaskTitle, setNewTaskTitle] = useState('')
 
+    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setNewTaskTitle(event.currentTarget.value)
+    }
+    const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.charCode === 13) {
+            addTask(newTaskTitle)
+            setNewTaskTitle('')
+        }
+    }
+
+    const addTaskHandler = () => {
+        addTask(newTaskTitle)
+        setNewTaskTitle('')
+    }
+
     return (
 
         <div className={s.TodoListWrapper}>
             <h3>{title}</h3>
             <div>
                 <input value={newTaskTitle}
-                       onChange={(event) => setNewTaskTitle(event.currentTarget.value)}
-                       onKeyPress={ ({charCode}) => {
-                               if (charCode === 13) {
-                                   addTask(newTaskTitle)
-                                   setNewTaskTitle('')
-                               }
-                       }}
-                />
-                <button
-                    onClick={() => {
-                        addTask(newTaskTitle)
-                        setNewTaskTitle('')
-                    }}>+
-                </button>
+                       onChange={onChangeHandler}
+                       onKeyPress={onKeyPressHandler} />
+                <button onClick={addTaskHandler}>+</button>
                 <ul>
                     {tasks.map((task) => {
                         return (
