@@ -33,8 +33,11 @@ export const TodoList: React.FC<TodoListPropsType> = (
             <div>
                 <input value={newTaskTitle}
                        onChange={(event) => setNewTaskTitle(event.currentTarget.value)}
-                       onKeyPress={ (event) => {
-                           console.log(event)
+                       onKeyPress={ ({charCode}) => {
+                               if (charCode === 13) {
+                                   addTask(newTaskTitle)
+                                   setNewTaskTitle('')
+                               }
                        }}
                 />
                 <button
