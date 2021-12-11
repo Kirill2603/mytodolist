@@ -13,6 +13,7 @@ type TodoListPropsType = {
     removeTask: (id: string) => void
     changeFilter: (filter: "all" | "active" | "completed") => void
     addTask: (title: string) => void
+    changeStatus: (id: string, isDone: boolean) => void
 }
 
 export const TodoList: React.FC<TodoListPropsType> = (
@@ -21,12 +22,13 @@ export const TodoList: React.FC<TodoListPropsType> = (
         tasks,
         removeTask,
         changeFilter,
-        addTask
+        addTask,
+        changeStatus
     }) => {
 
     const [newTaskTitle, setNewTaskTitle] = useState('')
 
-    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const onChangeTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setNewTaskTitle(event.currentTarget.value)
     }
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -42,20 +44,27 @@ export const TodoList: React.FC<TodoListPropsType> = (
     }
 
     return (
-
         <div className={s.TodoListWrapper}>
             <h3>{title}</h3>
             <div>
                 <input value={newTaskTitle}
-                       onChange={onChangeHandler}
+                       onChange={onChangeTitleHandler}
                        onKeyPress={onKeyPressHandler} />
                 <button onClick={addTaskHandler}>+</button>
                 <ul>
                     {tasks.map((task) => {
+
+                        const onClickHandler = () => removeTask(task.id)
+                        const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                            changeStatus(task.id, e.currentTarget.checked)
+                        }
+
                         return (
                             <li key={task.id}>
-                                <input type="checkbox" checked={task.isDone}/><span>{task.title}</span>
-                                <button onClick={() => removeTask(task.id)}>x</button>
+                                <input type="checkbox"
+                                       onChange={onChangeHandler}
+                                       checked={task.isDone}/><span>{task.title}</span>
+                                <button onClick={onClickHandler}>x</button>
                             </li>
                         )
                     })}
