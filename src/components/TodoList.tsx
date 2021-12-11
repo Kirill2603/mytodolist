@@ -39,11 +39,11 @@ export const TodoList: React.FC<TodoListPropsType> = (
     }
 
     const addTaskHandler = () => {
-        if (newTaskTitle === '') {
-            return
+        if (newTaskTitle.trim() !== '') {
+            addTask(newTaskTitle.trim())
+            setNewTaskTitle('')
         }
-        addTask(newTaskTitle)
-        setNewTaskTitle('')
+
     }
 
     return (
