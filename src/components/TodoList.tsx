@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import s from './TodoList.module.css'
+import {FilterValuesType} from "../App";
 
 type TaskType = {
     id: string
@@ -8,17 +9,19 @@ type TaskType = {
 }
 
 type TodoListPropsType = {
+    id: string
     title: string
     tasks: Array<TaskType>
     removeTask: (id: string) => void
-    changeFilter: (filter: "all" | "active" | "completed") => void
+    changeFilter: (filter: FilterValuesType, todolistId: string) => void
     addTask: (title: string) => void
     changeStatus: (id: string, isDone: boolean) => void
-    filter: "all" | "active" | "completed"
+    filter: FilterValuesType
 }
 
 export const TodoList: React.FC<TodoListPropsType> = (
     {
+        id,
         title,
         tasks,
         removeTask,
@@ -82,13 +85,13 @@ export const TodoList: React.FC<TodoListPropsType> = (
                 <div className={s.TodoListButtonBlock}>
                     <button
                         className={filter === 'all'? s.ActiveFilter : ''}
-                        onClick={() => changeFilter('all')}>All</button>
+                        onClick={() => changeFilter('all', id)}>All</button>
                     <button
                         className={filter === 'active'? s.ActiveFilter : ''}
-                        onClick={() => changeFilter('active')}>Active</button>
+                        onClick={() => changeFilter('active', id)}>Active</button>
                     <button
                         className={filter === 'completed'? s.ActiveFilter : ''}
-                        onClick={() => changeFilter('completed')}>Completed</button>
+                        onClick={() => changeFilter('completed', id)}>Completed</button>
                 </div>
             </div>
         </div>
