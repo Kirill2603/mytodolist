@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {TodoList} from "./components/TodoList";
 import './App.css'
 import {v1} from "uuid";
+import {AddItemForm} from "./components/AddItemForm";
 
 type TasksType = {
     id: string
@@ -19,16 +20,7 @@ type TodoListsType = {
 }
 
 function App() {
-
-    // let [tasks, setTasks] = useState<TasksType[]>(
-    //     [
-    //         {id: v1(), title: 'HTML&CSS', isDone: true},
-    //         {id: v1(), title: 'JS', isDone: true},
-    //         {id: v1(), title: 'React', isDone: false},
-    //         {id: v1(), title: 'Redux', isDone: false}
-    //     ]
-    // )
-
+    
     function removeTask(id: string, todoListId: string) {
         let tasksForFilter = tasks[todoListId]
         let filteredTasks = tasksForFilter.filter((task) => task.id !== id)
@@ -93,6 +85,7 @@ function App() {
 
     return (
         <div className="App">
+            <AddItemForm id={"asd"} addTask={()=>{}} />
             {
                 todoLists.map((todoList) => {
 
