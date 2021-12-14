@@ -17,6 +17,7 @@ type TodoListPropsType = {
     addTask: (title: string, todolistId: string) => void
     changeStatus: (id: string, isDone: boolean, todolistId: string) => void
     filter: FilterValuesType
+    removeTodoList: (todoListId: string) => void
 }
 
 export const TodoList: React.FC<TodoListPropsType> = (
@@ -28,7 +29,8 @@ export const TodoList: React.FC<TodoListPropsType> = (
         changeFilter,
         addTask,
         changeStatus,
-        filter
+        filter,
+        removeTodoList
     }) => {
 
     const [newTaskTitle, setNewTaskTitle] = useState('')
@@ -51,12 +53,15 @@ export const TodoList: React.FC<TodoListPropsType> = (
             setNewTaskTitle('')
 
         } else setError(true)
-
+    }
+    
+    const removeTodoListHandler = () => {
+      removeTodoList(id)
     }
 
     return (
         <div className={s.TodoListWrapper}>
-            <h3>{title}</h3>
+            <h3>{title}<button onClick={removeTodoListHandler}>x</button></h3>
             <div>
                 <input value={newTaskTitle}
                        className={error ? s.error : ''}
