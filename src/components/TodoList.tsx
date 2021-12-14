@@ -12,10 +12,10 @@ type TodoListPropsType = {
     id: string
     title: string
     tasks: Array<TaskType>
-    removeTask: (id: string) => void
+    removeTask: (id: string, todolistId: string) => void
     changeFilter: (filter: FilterValuesType, todolistId: string) => void
-    addTask: (title: string) => void
-    changeStatus: (id: string, isDone: boolean) => void
+    addTask: (title: string, todolistId: string) => void
+    changeStatus: (id: string, isDone: boolean, todolistId: string) => void
     filter: FilterValuesType
 }
 
@@ -40,14 +40,14 @@ export const TodoList: React.FC<TodoListPropsType> = (
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         setError(false)
         if (event.charCode === 13) {
-            addTask(newTaskTitle)
+            addTask(newTaskTitle, id)
             setNewTaskTitle('')
         }
     }
 
     const addTaskHandler = () => {
         if (newTaskTitle.trim() !== '') {
-            addTask(newTaskTitle.trim())
+            addTask(newTaskTitle.trim(), id)
             setNewTaskTitle('')
 
         } else setError(true)
@@ -67,9 +67,9 @@ export const TodoList: React.FC<TodoListPropsType> = (
                 <ul>
                     {tasks.map((task) => {
 
-                        const onClickHandler = () => removeTask(task.id)
+                        const onClickHandler = () => removeTask(task.id, id)
                         const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                            changeStatus(task.id, e.currentTarget.checked)
+                            changeStatus(task.id, e.currentTarget.checked, id)
                         }
 
                         return (
