@@ -19,20 +19,22 @@ type TodoListsType = {
     filter: FilterValuesType
 }
 
+type TaskStateType = {
+    [key: string] : TasksType[]
+}
+
 function App() {
     
     function removeTask(id: string, todoListId: string) {
         let tasksForFilter = tasks[todoListId]
-        let filteredTasks = tasksForFilter.filter((task) => task.id !== id)
-        tasks[todoListId] = filteredTasks
+        tasks[todoListId] = tasksForFilter.filter((task) => task.id !== id)
         setTasks({...tasks})
     }
 
     function addTask(title: string, todoListId: string) {
         let newTask: TasksType = {id: v1(), title: title, isDone: false}
         let tasksForAdd = tasks[todoListId]
-        let newTasks: TasksType[] = [...tasksForAdd, newTask]
-        tasks[todoListId] = newTasks
+        tasks[todoListId] = [...tasksForAdd, newTask]
         setTasks({...tasks})
     }
 
@@ -63,7 +65,7 @@ function App() {
     let todoListId1 = v1()
     let todoListId2 = v1()
 
-    let [tasks, setTasks] = useState({
+    let [tasks, setTasks] = useState<TaskStateType>({
         [todoListId1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
             {id: v1(), title: 'JS', isDone: true},
@@ -77,7 +79,7 @@ function App() {
         ]
     })
 
-    let [todoLists, setTodoLists]= useState<Array<TodoListsType>>([
+    let [todoLists, setTodoLists]= useState<TodoListsType[]>([
         {id: todoListId1, title: "What to learn", filter: 'all'},
         {id: todoListId2, title: "What to buy", filter: 'all'},
     ])
