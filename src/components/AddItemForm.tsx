@@ -2,10 +2,9 @@ import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import s from "./TodoList.module.css";
 
 type AddItemFormPropsType = {
-    id: string
-    addItem: (title: string, todolistId: string) => void
+    addItem: (title: string) => void
 }
-export const AddItemForm: React.FC<AddItemFormPropsType> = ({id, addItem}) => {
+export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
 
     const [newTaskTitle, setNewTaskTitle] = useState('')
     const [error, setError] = useState(false)
@@ -16,14 +15,14 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({id, addItem}) => {
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         setError(false)
         if (event.charCode === 13) {
-            addItem(newTaskTitle, id)
+            addItem(newTaskTitle)
             setNewTaskTitle('')
         }
     }
 
     const addTaskHandler = () => {
         if (newTaskTitle.trim() !== '') {
-            addItem(newTaskTitle.trim(), id)
+            addItem(newTaskTitle.trim())
             setNewTaskTitle('')
         } else setError(true)
     }

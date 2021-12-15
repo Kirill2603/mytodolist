@@ -77,15 +77,24 @@ function App() {
         ]
     })
 
-
     let [todoLists, setTodoLists]= useState<Array<TodoListsType>>([
         {id: todoListId1, title: "What to learn", filter: 'all'},
         {id: todoListId2, title: "What to buy", filter: 'all'},
     ])
 
+    const addTodoList = (title: string) => {
+      let newTodoList: TodoListsType = {
+          id: v1(),
+          title: title,
+          filter: "all"
+      }
+      setTodoLists([...todoLists, newTodoList])
+        setTasks({...tasks, [newTodoList.id]: []})
+    }
+
     return (
         <div className="App">
-            <AddItemForm id={"asd"} addItem={()=>{}} />
+            <AddItemForm addItem={addTodoList} />
             {
                 todoLists.map((todoList) => {
 

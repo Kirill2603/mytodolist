@@ -38,11 +38,15 @@ export const TodoList: React.FC<TodoListPropsType> = (
       removeTodoList(id)
     }
 
+    const addTask = (title: string) => {
+        addItem(title, id)
+    }
+    
     return (
         <div className={s.TodoListWrapper}>
             <h3>{title}<button onClick={removeTodoListHandler}>x</button></h3>
             <div>
-                <AddItemForm addItem={addItem} id={id} />
+                <AddItemForm addItem={addTask} />
                 <ul>
                     {tasks.map((task) => {
 
