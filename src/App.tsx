@@ -85,7 +85,7 @@ function App() {
 
     return (
         <div className="App">
-            <AddItemForm id={"asd"} addTask={()=>{}} />
+            <AddItemForm id={"asd"} addItem={()=>{}} />
             {
                 todoLists.map((todoList) => {
 
@@ -109,7 +109,7 @@ function App() {
                             tasks={tasksForTodoList}
                             removeTask={removeTask}
                             changeFilter={changeFilter}
-                            addTask={addTask}
+                            addItem={addTask}
                             changeStatus={changeStatus}
                             filter={todoList.filter}
                             removeTodoList={removeTodoList}
