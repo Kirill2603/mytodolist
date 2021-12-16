@@ -16,8 +16,8 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = ({title,onChangeTit
         onChangeTitle(editTitle)
         setEditTitle(title)
     }
-    const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        if (event.charCode === 13) {
+    const onKeyPressHandler = ({charCode}: KeyboardEvent<HTMLInputElement>) => {
+        if (charCode === 13) {
             setEditMode(!editMode)
             onChangeTitle(editTitle)
             setEditTitle(title)
