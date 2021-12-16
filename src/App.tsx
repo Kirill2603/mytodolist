@@ -79,6 +79,16 @@ function App() {
         setTasks({...tasks})
     }
 
+    const addTodoList = (title: string) => {
+        let newTodoList: TodoListsType = {
+            id: v1(),
+            title: title,
+            filter: "all"
+        }
+        setTodoLists([...todoLists, newTodoList])
+        setTasks({...tasks, [newTodoList.id]: []})
+    }
+
     let todoListId1 = v1()
     let todoListId2 = v1()
 
@@ -100,16 +110,6 @@ function App() {
         {id: todoListId1, title: "What to learn", filter: 'all'},
         {id: todoListId2, title: "What to buy", filter: 'all'},
     ])
-
-    const addTodoList = (title: string) => {
-      let newTodoList: TodoListsType = {
-          id: v1(),
-          title: title,
-          filter: "all"
-      }
-      setTodoLists([...todoLists, newTodoList])
-        setTasks({...tasks, [newTodoList.id]: []})
-    }
 
     return (
         <div className="App">
