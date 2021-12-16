@@ -1,39 +1,40 @@
-.TodoListWrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    width: fit-content;
-    padding: 20px;
-    margin: 20px;
-    border-radius: 10px;
-    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
-    background-color: rgba(136, 165, 191, 0.15);
-}
+/*.TodoListWrapper {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*    align-content: center;*/
+/*    align-items: center;*/
+/*    width: fit-content;*/
+/*    padding: 20px;*/
+/*    margin: 20px;*/
+/*    border-radius: 10px;*/
+/*    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;*/
+/*    background-color: rgba(136, 165, 191, 0.15);*/
+/*}*/
 
-.TodoListButtonBlock {
-    display: flex;
-    justify-content: space-around;
-}
+/*.TodoListButtonBlock {*/
+/*    display: flex;*/
+/*    justify-content: space-around;*/
+/*}*/
 
-.TodoListWrapper h3 {
-    display: flex;
-    justify-content: center;
-}
+/*.TodoListWrapper h3 {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*}*/
 
-.error {
-    border: 1px solid red;
-}
+/*.error {*/
+/*    border: 1px solid red;*/
+/*}*/
 
-.errorMessage {
-    color: red;
-}
+/*.errorMessage {*/
+/*    color: red;*/
+/*}*/
 
-.TodoListButtonBlock .ActiveFilter{
-    background-color: dodgerblue;
-}
+/*.TodoListButtonBlock .ActiveFilter{*/
+/*    background-color: dodgerblue;*/
+/*    color: white;*/
+/*}*/
 
-.IsDone {
-    opacity: 0.3;
-}
+/*.IsDone {*/
+/*    opacity: 0.3;*/
+/*}*/

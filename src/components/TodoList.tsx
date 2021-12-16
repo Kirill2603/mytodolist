@@ -3,6 +3,8 @@ import s from './TodoList.module.css'
 import {FilterValuesType} from "../App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import {Button, ButtonGroup, Checkbox, IconButton, List, ListItem} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
 type TaskType = {
     id: string
@@ -55,10 +57,13 @@ export const TodoList: React.FC<TodoListPropsType> = (
     return (
         <div className={s.TodoListWrapper}>
             <h3><EditableSpan title={title} onChangeTitle={changeTodoListTitleHandler}/>
-                <button onClick={removeTodoListHandler}>x</button></h3>
+            <IconButton onClick={removeTodoListHandler}>
+                <Delete />
+            </IconButton>
+            </h3>
             <div>
                 <AddItemForm addItem={addTask} />
-                <ul>
+                <List>
                     {tasks.map((task) => {
 
                         const onClickHandler = () => removeTask(task.id, id)
@@ -70,28 +75,32 @@ export const TodoList: React.FC<TodoListPropsType> = (
                         }
 
                         return (
-                            <li key={task.id} className={task.isDone ? s.IsDone : ''}>
-                                <input type="checkbox"
+                            <ListItem key={task.id} className={task.isDone ? s.IsDone : ''}>
+                                <Checkbox
                                        onChange={onChangeStatusHandler}
                                        checked={task.isDone}/>
                                 <EditableSpan
                                     onChangeTitle={onChangeTaskHandler}
                                     title={task.title} />
-                                <button onClick={onClickHandler}>x</button>
-                            </li>
+                                <IconButton onClick={onClickHandler}>
+                                    <Delete />
+                                </IconButton>
+                            </ListItem>
                         )
                     })}
-                </ul>
+                </List>
                 <div className={s.TodoListButtonBlock}>
-                    <button
+                    <ButtonGroup variant={"outlined"}>
+                    <Button
                         className={filter === 'all'? s.ActiveFilter : ''}
-                        onClick={() => changeFilter('all', id)}>All</button>
-                    <button
+                        onClick={() => changeFilter('all', id)}>All</Button>
+                    <Button
                         className={filter === 'active'? s.ActiveFilter : ''}
-                        onClick={() => changeFilter('active', id)}>Active</button>
-                    <button
+                        onClick={() => changeFilter('active', id)}>Active</Button>
+                    <Button
                         className={filter === 'completed'? s.ActiveFilter : ''}
-                        onClick={() => changeFilter('completed', id)}>Completed</button>
+                        onClick={() => changeFilter('completed', id)}>Completed</Button>
+                    </ButtonGroup>
                 </div>
             </div>
         </div>
