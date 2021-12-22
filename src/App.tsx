@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import {Grid, Paper} from "@mui/material";
 
-type TasksType = {
+export type TasksType = {
     id: string
     title: string
     isDone: boolean
@@ -26,7 +26,7 @@ export type TodoListsType = {
     filter: FilterValuesType
 }
 
-type TaskStateType = {
+export type TasksStateType = {
     [key: string]: TasksType[]
 }
 
@@ -45,12 +45,13 @@ function App() {
         setTasks({...tasks})
     }
 
-    function changeFilter(filter: FilterValuesType, todolistId: string) {
-        let todolist = todoLists.find(todolist => todolist.id === todolistId)
-        if (todolist) {
-            todolist.filter = filter
-            setTodoLists([...todoLists])
+    function changeTaskTitle(id: string, newTitle: string, todoListId: string) {
+        let tasksForChange = tasks[todoListId]
+        let task = tasksForChange.find(task => task.id === id)
+        if (task) {
+            task.title = newTitle
         }
+        setTasks({...tasks})
     }
 
     function changeStatus(taskID: string, isDone: boolean, todolistId: string) {
@@ -62,14 +63,15 @@ function App() {
         setTasks({...tasks})
     }
 
-    function changeTaskTitle(id: string, newTitle: string, todoListId: string) {
-        let tasksForChange = tasks[todoListId]
-        let task = tasksForChange.find(task => task.id === id)
-        if (task) {
-            task.title = newTitle
+    function changeFilter(filter: FilterValuesType, todolistId: string) {
+        let todolist = todoLists.find(todolist => todolist.id === todolistId)
+        if (todolist) {
+            todolist.filter = filter
+            setTodoLists([...todoLists])
         }
-        setTasks({...tasks})
     }
+
+
 
     function changeTodoListTitle(newTodoListTitle: string, todoListId: string) {
         let todolist = todoLists.find(todolist => todolist.id === todoListId)
@@ -99,7 +101,7 @@ function App() {
     let todoListId1 = v1()
     let todoListId2 = v1()
 
-    let [tasks, setTasks] = useState<TaskStateType>({
+    let [tasks, setTasks] = useState<TasksStateType>({
         [todoListId1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
             {id: v1(), title: 'JS', isDone: true},
