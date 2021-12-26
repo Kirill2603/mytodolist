@@ -1,5 +1,6 @@
 import {TasksStateType} from "../App";
-import {AddTodoListActionType, RemoveTodoListActionType} from "./todolists-reducer";
+import {AddTodoListActionType, RemoveTodoListActionType, todoListId1, todoListId2} from "./todolists-reducer";
+import {v1} from "uuid";
 
 type ActionsType =
     RemoveTaskActionType |
@@ -35,9 +36,21 @@ type ChangeTaskStatusActionType = {
     isDone: boolean
 }
 
+const initialState: TasksStateType = {
+    [todoListId1]: [
+        {id: v1(), title: 'HTML&CSS', isDone: true},
+        {id: v1(), title: 'JS', isDone: true},
+        {id: v1(), title: 'React', isDone: false},
+        {id: v1(), title: 'Redux', isDone: false}
+    ],
+    [todoListId2]: [
+        {id: v1(), title: 'Book', isDone: true},
+        {id: v1(), title: 'Milk', isDone: true},
+        {id: v1(), title: 'Cola', isDone: false},
+    ]
+}
 
-
-export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
+export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
 
     switch (action.type) {
 
@@ -96,7 +109,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
         }
 
         default:
-            throw new Error("I don't understand this type")
+            return state
     }
 }
 
