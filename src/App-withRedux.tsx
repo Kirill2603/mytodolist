@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {TodoList} from "./components/TodoList";
 import './App.css'
 import {AddItemForm} from "./components/AddItemForm";
@@ -39,11 +39,10 @@ function AppWithRedux() {
     const todoLists = useSelector<AppRootState, Array<TodoListsType>>(state => state.todoLists)
 
 
-
-    const addTodoList = (title: string) => {
+    const addTodoList = useCallback ( (title: string) => {
         const action = addTodoListAC(title)
         dispatch(action)
-    }
+    }, [])
 
     return (
 

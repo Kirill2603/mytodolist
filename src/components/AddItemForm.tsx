@@ -6,19 +6,24 @@ import {AddCircle} from "@mui/icons-material";
 type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
-export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
+
+export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo (({addItem}) => {
+
+    console.log('addItemForm is called')
 
     const [newTaskTitle, setNewTaskTitle] = useState('')
     const [error, setError] = useState(false)
 
     const onChangeTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setError(false)
         setNewTaskTitle(event.currentTarget.value)
     }
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        setError(false)
-        if (event.charCode === 13) {
+
+        if (!error && event.charCode === 13) {
             addTaskHandler()
         }
+
     }
 
     const addTaskHandler = () => {
@@ -35,7 +40,6 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
                 variant={"outlined"}
                 size={"small"}
                 error={error}
-
                 helperText={error && 'Title is required'}
                 value={newTaskTitle}
                 className={error ? s.error : ''}
@@ -47,4 +51,4 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
             </IconButton>
         </div>
     )
-}
+} )

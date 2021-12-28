@@ -1,6 +1,5 @@
-import React, {ChangeEvent} from "react";
+import React, {useCallback} from "react";
 import s from './TodoList.module.css'
-
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, ButtonGroup, Checkbox, IconButton, List, ListItem} from "@mui/material";
@@ -23,20 +22,15 @@ type TodoListPropsType = {
     filter: FilterValuesType
 }
 
-export const TodoList: React.FC<TodoListPropsType> = (
-    {
-        id,
-        title,
-        filter,
-    }) => {
+export const TodoList: React.FC<TodoListPropsType> = ({id,title,filter}) => {
 
     const tasks = useSelector<AppRootState, Array<TaskType>>(state => state.tasks[id])
     const dispatch = useDispatch()
 
 
-    const addTask = (title: string) => {
+    const addTask = useCallback((title: string) => {
         dispatch(addTaskAC(title, id))
-    }
+    }, [])
 
     const changeTodoListTitleHandler = (newTodoListTitle: string) => {
         dispatch(changeTodoListTitleAC(newTodoListTitle, id))
