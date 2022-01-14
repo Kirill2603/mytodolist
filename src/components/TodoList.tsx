@@ -22,7 +22,7 @@ type TodoListPropsType = {
     filter: FilterValuesType
 }
 
-export const TodoList: React.FC<TodoListPropsType> = ({id,title,filter}) => {
+export const TodoList: React.FC<TodoListPropsType> = React.memo (function ({id,title,filter}) {
 
     const tasks = useSelector<AppRootState, Array<TaskType>>(state => state.tasks[id])
     const dispatch = useDispatch()
@@ -51,14 +51,14 @@ export const TodoList: React.FC<TodoListPropsType> = ({id,title,filter}) => {
     if (filter === 'all') {
         tasksForTodoList = tasksForTodoList.filter(task => task)
     }
+    console.log('todoList rendered')
 
-    
     return (
         <div className={s.TodoListWrapper}>
             <h3><EditableSpan title={title} onChangeTitle={changeTodoListTitleHandler}/>
-            <IconButton onClick={() => dispatch(removeTodolistAC(id))}>
-                <Delete />
-            </IconButton>
+                <IconButton onClick={() => dispatch(removeTodolistAC(id))}>
+                    <Delete />
+                </IconButton>
             </h3>
             <div>
                 <AddItemForm addItem={addTask} />
@@ -72,8 +72,8 @@ export const TodoList: React.FC<TodoListPropsType> = ({id,title,filter}) => {
                         return (
                             <ListItem key={task.id} className={task.isDone ? s.IsDone : ''}>
                                 <Checkbox
-                                       onChange={(e) => dispatch(changeTaskStatusAC(task.id, e.currentTarget.checked, id))}
-                                       checked={task.isDone}/>
+                                    onChange={(e) => dispatch(changeTaskStatusAC(task.id, e.currentTarget.checked, id))}
+                                    checked={task.isDone}/>
                                 <EditableSpan
                                     onChangeTitle={onChangeTaskHandler}
                                     title={task.title} />
@@ -86,19 +86,19 @@ export const TodoList: React.FC<TodoListPropsType> = ({id,title,filter}) => {
                 </List>
                 <div className={s.TodoListButtonBlock}>
                     <ButtonGroup variant={"outlined"}>
-                    <Button
-                        className={filter === 'all'? s.ActiveFilter : ''}
-                        onClick={() => changeFilter('all', id)}>All</Button>
-                    <Button
-                        className={filter === 'active'? s.ActiveFilter : ''}
-                        onClick={() => changeFilter('active', id)}>Active</Button>
-                    <Button
-                        className={filter === 'completed'? s.ActiveFilter : ''}
-                        onClick={() => changeFilter('completed', id)}>Completed</Button>
+                        <Button
+                            className={filter === 'all'? s.ActiveFilter : ''}
+                            onClick={() => changeFilter('all', id)}>All</Button>
+                        <Button
+                            className={filter === 'active'? s.ActiveFilter : ''}
+                            onClick={() => changeFilter('active', id)}>Active</Button>
+                        <Button
+                            className={filter === 'completed'? s.ActiveFilter : ''}
+                            onClick={() => changeFilter('completed', id)}>Completed</Button>
                     </ButtonGroup>
                 </div>
             </div>
         </div>
     )
-}
+})
 

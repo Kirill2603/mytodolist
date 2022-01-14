@@ -39,15 +39,13 @@ function AppWithRedux() {
     const todoLists = useSelector<AppRootState, Array<TodoListsType>>(state => state.todoLists)
 
 
-    const addTodoList = useCallback ( (title: string) => {
+    const addTodoList = useCallback((title: string) => {
         const action = addTodoListAC(title)
         dispatch(action)
     }, [])
 
     return (
-
         <div className="App">
-
             <AppBar enableColorOnDark={true} position="static" style={{marginBottom: "12px"}}>
                 <Toolbar>
                     <Grid container xs={5} direction={"row"} justifyContent="center"
@@ -57,45 +55,39 @@ function AppWithRedux() {
                             edge="start"
                             color="inherit"
                             aria-label="menu"
-                            sx={{mr: 2}}
-                        >
+                            sx={{mr: 2}}>
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                            To Do List
+                            ToDo List
                         </Typography>
                     </Grid>
                     <Grid container xs gridTemplateRows={1}>
-                        <AddItemForm  addItem={addTodoList}/>
+                        <AddItemForm addItem={addTodoList}/>
                     </Grid>
                     <Grid container xs={2} alignItems={"end"} justifyContent={"end"}>
                         <Button color="inherit">Login</Button>
                     </Grid>
-
-
                 </Toolbar>
             </AppBar>
 
-                <Grid container spacing={3} alignItems={"center"} justifyContent={"center"}>
-                    {
-                        todoLists.map((todoList) => {
-
-                            return (
-                                <Grid item >
-                                    <Paper elevation={12} style={{padding: '15px'}}>
-                                <TodoList
-                                    key={todoList.id}
-                                    id={todoList.id}
-                                    title={todoList.title}
-                                    filter={todoList.filter}
-                                />
-                                    </Paper>
-                                </Grid>
-                            )
-                        })
-                    }
-                </Grid>
-
+            <Grid container spacing={3} alignItems={"center"} justifyContent={"center"}>
+                {
+                    todoLists.map((todoList) => {
+                        return (
+                            <Grid item>
+                                <Paper elevation={12} style={{padding: '15px'}}>
+                                    <TodoList
+                                        key={todoList.id}
+                                        id={todoList.id}
+                                        title={todoList.title}
+                                        filter={todoList.filter}/>
+                                </Paper>
+                            </Grid>
+                        )
+                    })
+                }
+            </Grid>
         </div>
     );
 }
