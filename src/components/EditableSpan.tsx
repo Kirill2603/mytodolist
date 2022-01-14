@@ -6,7 +6,7 @@ type EditableSpanPropsType = {
     onChangeTitle: (newTitle: string) => void
 }
 
-export const EditableSpan: React.FC<EditableSpanPropsType> = ({title,onChangeTitle}) => {
+export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo( ({title,onChangeTitle}) => {
 
     let [editMode, setEditMode] = useState(false)
     let [editTitle, setEditTitle] = useState("")
@@ -28,6 +28,8 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = ({title,onChangeTit
       setEditTitle(event.currentTarget.value)
     }
 
+    console.log('Editable span was called')
+
     return (
         editMode
             ? <TextField
@@ -40,4 +42,4 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = ({title,onChangeTit
                 autoFocus={true}/>
             : <span onDoubleClick={changeEditMode}>{title}</span>
     )
-}
+})

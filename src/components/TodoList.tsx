@@ -27,18 +27,17 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo (function ({id,t
     const tasks = useSelector<AppRootState, Array<TaskType>>(state => state.tasks[id])
     const dispatch = useDispatch()
 
-
     const addTask = useCallback((title: string) => {
         dispatch(addTaskAC(title, id))
-    }, [])
+    }, [dispatch, id])
 
-    const changeTodoListTitleHandler = (newTodoListTitle: string) => {
+    const changeTodoListTitleHandler = useCallback((newTodoListTitle: string) => {
         dispatch(changeTodoListTitleAC(newTodoListTitle, id))
-    }
+    } , [dispatch, id])
 
-    function changeFilter(filter: FilterValuesType, todolistId: string) {
+    const changeFilter = useCallback((filter: FilterValuesType, todolistId: string) => {
         dispatch(changeTodoListFilterAC(filter, todolistId))
-    }
+    },[dispatch])
 
     let tasksForTodoList = tasks
 

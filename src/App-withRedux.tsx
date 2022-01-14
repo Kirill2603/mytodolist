@@ -21,7 +21,6 @@ export type TasksType = {
 
 export type FilterValuesType = "all" | "active" | "completed"
 
-
 export type TodoListsType = {
     id: string
     title: string
@@ -35,14 +34,12 @@ export type TasksStateType = {
 function AppWithRedux() {
 
     const dispatch = useDispatch()
-
     const todoLists = useSelector<AppRootState, Array<TodoListsType>>(state => state.todoLists)
-
 
     const addTodoList = useCallback((title: string) => {
         const action = addTodoListAC(title)
         dispatch(action)
-    }, [])
+    }, [dispatch])
 
     return (
         <div className="App">

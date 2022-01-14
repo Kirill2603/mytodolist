@@ -1,4 +1,3 @@
-
 import {AddTodoListActionType, RemoveTodoListActionType, todoListId1, todoListId2} from "./todolists-reducer";
 import {v1} from "uuid";
 import {TasksStateType} from "../App-withRedux";
