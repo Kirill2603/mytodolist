@@ -71,7 +71,8 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo (function ({id,t
                         return (
                             <ListItem key={task.id} className={task.isDone ? s.IsDone : ''}>
                                 <Checkbox
-                                    onChange={(e) => dispatch(changeTaskStatusAC(task.id, e.currentTarget.checked, id))}
+                                    onChange={(e) => dispatch(
+                                        changeTaskStatusAC(task.id, e.currentTarget.checked, id))}
                                     checked={task.isDone}/>
                                 <EditableSpan
                                     onChangeTitle={onChangeTaskHandler}
