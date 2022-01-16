@@ -43,3 +43,20 @@ export const PostDataToAPI = () => {
         <button onClick={()=> {}}>Post!</button>
     )
 }
+
+export const DeleteTodoList = () => {
+    const [state, setState] = useState<any>(null)
+
+    useEffect(() => {
+        axios.delete('https://social-network.samuraijs.com/api/1.0/todo-lists/1c22666d-403f-4ea1-8d7e-e4e66edb0e92', settings)
+
+            .then((res) => {
+                debugger
+                setState(res.data)
+            })
+    }, [])
+
+    return (
+        <div>{JSON.stringify(state)}</div>
+    )
+}

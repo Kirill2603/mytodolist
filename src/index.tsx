@@ -5,14 +5,14 @@ import reportWebVitals from './reportWebVitals';
 import AppWithRedux from "./App-withRedux";
 import {Provider} from "react-redux";
 import {store} from "./state/store";
-import {GetDataFromAPI, PostDataToAPI} from "./state/testApi";
+import {DeleteTodoList, GetDataFromAPI} from "./state/testApi";
 
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
             <AppWithRedux/>
             <GetDataFromAPI />
-            <PostDataToAPI />
+            <DeleteTodoList />
         </Provider>
     </React.StrictMode>,
     document.getElementById('root')
