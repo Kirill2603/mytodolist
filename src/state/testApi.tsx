@@ -20,7 +20,7 @@ export const GetTodoLists = () => {
 }
 
 
-export const AddPost = () => {
+export const AddTodoList = () => {
 
     const [state, setState] = useState<any>(null)
 
@@ -73,3 +73,40 @@ export const ChangeTodoListTitle = () => {
         <></>
     )
 }
+
+export const GetTasks = () => {
+
+    const [state, setState] = useState<any>(null)
+
+    const todoListID = 'ab020602-6fd4-44c5-ba93-03ce2cc1297a'
+
+    useEffect(() => {
+        todoListsAPI.getTasks(todoListID)
+            .then((res) => {
+                setState(res.data)
+            })
+    }, [])
+
+    return (
+        <div>{JSON.stringify(state)}</div>
+    )
+}
+
+export const AddTask = () => {
+
+    const [state, setState] = useState<any>(null)
+
+    const todoListID = 'ab020602-6fd4-44c5-ba93-03ce2cc1297a'
+
+    useEffect(() => {
+        todoListsAPI.addTask(todoListID, "third task")
+            .then((res) => {
+                setState(res.data)
+            })
+    }, [])
+
+    return (
+        <div>{JSON.stringify(state)}</div>
+    )
+}
+
