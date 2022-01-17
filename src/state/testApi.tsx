@@ -110,3 +110,41 @@ export const AddTask = () => {
     )
 }
 
+export const DeleteTask = () => {
+
+    const [state, setState] = useState<any>(null)
+
+    const todoListID = 'ab020602-6fd4-44c5-ba93-03ce2cc1297a'
+    const taskID = 'adf08f7a-72b4-48ff-bddf-3635cf0bc451'
+    useEffect(() => {
+        todoListsAPI.deleteTask(todoListID, taskID)
+            .then((res) => {
+                setState(res.data)
+            })
+    }, [])
+
+    return (
+        <div>{JSON.stringify(state)}</div>
+    )
+}
+
+export const ChangeTaskTitle = () => {
+
+    const [state, setState] = useState<any>(null)
+
+    const todoListID = "ab020602-6fd4-44c5-ba93-03ce2cc1297a"
+    const taskID = "284e42ab-5d00-413b-9315-026eedbfa372"
+    const title = "Hello!"
+
+    useEffect(() => {
+        todoListsAPI.changeTaskTitle(todoListID, taskID, title)
+            .then((res) => {
+                setState(res.data)
+            })
+    }, [])
+
+    return (
+        <div>{JSON.stringify(state)}</div>
+    )
+}
+

@@ -56,40 +56,49 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
 
         case 'REMOVE-TASK': {
             const stateCopy = {...state}
-            const tasks = state[action.todoListId]
-            stateCopy[action.todoListId] = tasks.filter(t => t.id !== action.id)
-            return stateCopy
+            const tasks = stateCopy[action.todoListId];
+            const newTasks = tasks.filter(t => t.id !== action.id);
+            stateCopy[action.todoListId] = newTasks;
+            return stateCopy;
         }
 
         case 'ADD-TASK': {
             const stateCopy = {...state}
-            const tasks = stateCopy[action.todoListId]
-            const newTask = {id: v1(), title: action.title, isDone: false}
-            stateCopy[action.todoListId] = [...tasks, newTask]
-            return stateCopy
+            const newTask = {
+                id: v1(),
+                title: action.title,
+                isDone: false
+            }
+            const tasks = stateCopy[action.todoListId];
+            const newTasks = [newTask, ...tasks];
+            stateCopy[action.todoListId] = newTasks;
+            return stateCopy;
         }
 
         case 'CHANGE-TASK-TITLE': {
-            const stateCopy = {...state}
-            let tasksForChange = stateCopy[action.todoListId]
-            let task = tasksForChange.find(task => task.id === action.id)
-            if (task) {
-                task.title = action.title
-            }
-            return stateCopy
+            let todolistTasks = state[action.todoListId];
+            // найдём нужную таску:
+            let newTasksArray = todolistTasks
+                .map(t => t.id === action.id ? {...t, title: action.title} : t);
+
+            state[action.todoListId] = newTasksArray;
+            return ({...state});
         }
 
         case 'CHANGE-TASK-STATUS' : {
-            const stateCopy = {...state}
-            let tasks = stateCopy[action.todoListId]
-            stateCopy[action.todoListId] = tasks.map(t => t.id === action.id ? {...t, isDone: action.isDone} : t)
-            return stateCopy
+            let todolistTasks = state[action.todoListId];
+            let newTasksArray = todolistTasks
+                .map(t => t.id === action.id ? {...t, isDone: action.isDone} : t);
+
+            state[action.todoListId] = newTasksArray;
+            return ({...state});
         }
 
         case 'ADD-TODOLIST': {
-            const stateCopy = {...state}
-            stateCopy[action.todoListId] = []
-            return stateCopy
+            return {
+                ...state,
+                [action.todoListId]: []
+            }
         }
 
         case 'REMOVE-TODOLIST' : {

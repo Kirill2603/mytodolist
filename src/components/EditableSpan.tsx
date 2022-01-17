@@ -1,17 +1,17 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {TextField} from "@mui/material";
+import {Input, Text} from "@chakra-ui/react";
 
 type EditableSpanPropsType = {
     title: string
     onChangeTitle: (newTitle: string) => void
 }
 
-export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo( ({title,onChangeTitle}) => {
+export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo(({title, onChangeTitle}) => {
 
     let [editMode, setEditMode] = useState(false)
     let [editTitle, setEditTitle] = useState("")
 
-    const changeEditMode =() => {
+    const changeEditMode = () => {
         setEditMode(!editMode)
         onChangeTitle(editTitle)
         setEditTitle(title)
@@ -25,21 +25,19 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo( ({title
     }
 
     const onChangeEditTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
-      setEditTitle(event.currentTarget.value)
+        setEditTitle(event.currentTarget.value)
     }
-
-    console.log('Editable span was called')
 
     return (
         editMode
-            ? <TextField
-                size={"small"}
-                variant={"standard"}
+            ? <Input
                 value={editTitle}
                 onKeyPress={onKeyPressHandler}
                 onChange={onChangeEditTitleHandler}
-                onDoubleClickCapture={changeEditMode}
-                autoFocus={true}/>
-            : <span onDoubleClick={changeEditMode}>{title}</span>
+                onDoubleClickCapture={changeEditMode}/>
+
+            : <Text
+                onDoubleClick={changeEditMode}
+                fontSize='xl'>{title}</Text>
     )
 })

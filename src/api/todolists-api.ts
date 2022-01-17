@@ -7,7 +7,7 @@ type TodoListsType = {
     order: number
 }
 // ResponseType<Уточняет объект D при объявлении типа>
-type ResponseType<D> = {
+type ResponseType< D = {} > = {
     resultCode: number
     messages: Array<string>
     fieldsErrors: Array<string>
@@ -48,13 +48,13 @@ export const todoListsAPI = {
         return instance.get<Array<TodoListsType>>('todo-lists')
     },
     addTodoList(title: string) {
-        return instance.post<ResponseType<{item: TodoListsType}>>('todo-lists', {title: title})
+        return instance.post<ResponseType<{ item: TodoListsType }>>('todo-lists', {title: title})
     },
     deleteTodoLIst(todoLIstID: string) {
-        return instance.delete<ResponseType<{}>>(`todo-lists/${todoLIstID}`)
+        return instance.delete<ResponseType>(`todo-lists/${todoLIstID}`)
     },
     changeTodoListTitle(todoLIstID: string, title: string) {
-        return instance.put<ResponseType<{}>>(`todo-lists/${todoLIstID}`,{title: title})
+        return instance.put<ResponseType>(`todo-lists/${todoLIstID}`, {title: title})
     },
 
 
@@ -64,4 +64,10 @@ export const todoListsAPI = {
     addTask(todoLIstID: string, title: string) {
         return instance.post<ResponseType<TaskType>>(`todo-lists/${todoLIstID}/tasks`, {title: title})
     },
+    deleteTask(todoLIstID: string, taskID: string) {
+        return instance.delete<ResponseType>(`todo-lists/${todoLIstID}/tasks/${taskID}`)
+    },
+    changeTaskTitle(todoLIstID: string, taskID: string, title: string) {
+        return instance.put<ResponseType<TaskType>>(`todo-lists/${todoLIstID}/tasks/${taskID}`, {title: title})
+    }
 }
