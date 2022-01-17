@@ -37,6 +37,7 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo(({title,
                 onDoubleClickCapture={changeEditMode}/>
 
             : <Text
+                wordBreak={"break-word"}
                 onDoubleClick={changeEditMode}
                 fontSize='xl'>{title}</Text>
     )

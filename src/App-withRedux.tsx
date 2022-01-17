@@ -1,6 +1,6 @@
 import React from 'react';
 import {TodoList} from "./components/TodoList";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
 import {Header} from "./components/header";
 import {Grid, GridItem} from "@chakra-ui/react";
@@ -8,10 +8,10 @@ import {Grid, GridItem} from "@chakra-ui/react";
 export type TasksType = {
     id: string
     title: string
-    isDone: boolean
+    status: number
 }
 
-export type FilterValuesType = "all" | "active" | "completed"
+export type FilterValuesType = "all" | "in progress" | "completed" | 'new' | 'draft'
 
 export type TodoListsType = {
     id: string
@@ -25,18 +25,17 @@ export type TasksStateType = {
 
 function AppWithRedux() {
 
-    const dispatch = useDispatch()
     const todoLists = useSelector<AppRootState, Array<TodoListsType>>(state => state.todoLists)
 
 
     return (
         <>
             <Header/>
-            <Grid templateColumns='repeat(5, 1fr)' gap={6} m={3}>
+            <Grid templateColumns='repeat(3, 1fr)' gap={6} m={3}>
                 {
                     todoLists.map((todoList) => {
                         return (
-                            <GridItem>
+                            <GridItem key={todoList.id}>
                                 <TodoList
                                     key={todoList.id}
                                     id={todoList.id}

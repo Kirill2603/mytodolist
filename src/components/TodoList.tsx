@@ -6,12 +6,13 @@ import {AppRootState} from "../state/store";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/tasks-reducer";
 import {FilterValuesType} from "../App-withRedux";
 import {changeTodoListFilterAC, changeTodoListTitleAC, removeTodolistAC} from "../state/todolists-reducer";
-import {Box, Button, ButtonGroup, Center, Checkbox, CloseButton} from "@chakra-ui/react";
+import {Box, Button, ButtonGroup, Center, CloseButton, Flex} from "@chakra-ui/react";
+import {StatusBadge} from "./status-badge";
 
 type TaskType = {
     id: string
     title: string
-    isDone: boolean
+    status: number
 }
 
 type TodoListPropsType = {
@@ -37,28 +38,29 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
         dispatch(changeTodoListFilterAC(filter, todolistId))
     }, [dispatch])
 
+
+
     let tasksForTodoList = tasks
 
     if (filter === 'completed') {
-        tasksForTodoList = tasksForTodoList.filter(task => task.isDone)
+        tasksForTodoList = tasksForTodoList.filter(task => task.status)
     }
-    if (filter === 'active') {
-        tasksForTodoList = tasksForTodoList.filter(task => !task.isDone)
+    if (filter === 'new') {
+        tasksForTodoList = tasksForTodoList.filter(task => !task.status)
     }
     if (filter === 'all') {
         tasksForTodoList = tasksForTodoList.filter(task => task)
     }
-    console.log('todoList rendered')
 
     return (
 
-        <Box maxW='xs' borderWidth='1px' borderRadius='lg' overflow='hidden' bgColor={'teal.800'}>
+        <Box maxW='md' borderWidth='1px' borderRadius='lg' overflow='hidden' bgColor={'teal.800'} >
 
             <Center><EditableSpan title={title} onChangeTitle={changeTodoListTitleHandler}/>
                 <CloseButton onClick={() => dispatch(removeTodolistAC(id))}/>
             </Center>
 
-            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' p={3} bgColor={'#1a202c'}>
+            <Box maxW='md' borderWidth='1px' borderRadius='lg' overflow='hidden' p={3} bgColor={'#1a202c'}>
                 <AddItemForm addItem={addTask} />
 
                 {tasksForTodoList.map((task) => {
@@ -66,34 +68,46 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
                     const onChangeTaskHandler = (newTaskTitle: string) => {
                         dispatch(changeTaskTitleAC(newTaskTitle, task.id, id))
                     }
+                    const changeTaskStatus =(status: number) => {
+                        dispatch((changeTaskStatusAC(task.id, status, id)))
+                    }
 
                     return (
-                        <Center pt={2}>
-                            <Checkbox
-                                isChecked={task.isDone}
-                                type={"checkbox"}
-                                onChange={(e) => dispatch(
-                                    changeTaskStatusAC(task.id, e.currentTarget.checked, id))}/>
+                        <Flex p={1} justifyContent={"space-around"} alignItems={"center"}>
+
+                            <StatusBadge taskStatus={task.status} changeTaskStatus={changeTaskStatus}/>
+
+                            {/*<Checkbox*/}
+                            {/*    isChecked={task.isDone}*/}
+                            {/*    type={"checkbox"}*/}
+                            {/*    onChange={(e) => dispatch(*/}
+                            {/*        changeTaskStatusAC(task.id, e.currentTarget.checked, id))}/>*/}
                             <EditableSpan
                                 onChangeTitle={onChangeTaskHandler}
                                 title={task.title}/>
                             <CloseButton onClick={() => dispatch(removeTaskAC(task.id, id))}/>
-                        </Center>
+                        </Flex>
 
                     )
                 })}
 
                 <Center>
-                    <ButtonGroup isAttached variant='outline' pt={5} pb={5}>
+                    <ButtonGroup isAttached variant='outline' pt={5} pb={5} size={'md'}>
                         <Button
                             colorScheme={'blue'}
-                            onClick={() => changeFilter('all', id)}>All</Button>
+                            onClick={() => changeFilter('new', id)}>New</Button>
                         <Button
                             colorScheme={'yellow'}
-                            onClick={() => changeFilter('active', id)}>Active</Button>
+                            onClick={() => changeFilter('in progress', id)}>In progress</Button>
                         <Button
                             colorScheme={'teal'}
                             onClick={() => changeFilter('completed', id)}>Completed</Button>
+                        <Button
+                            colorScheme={'facebook'}
+                            onClick={() => changeFilter('draft', id)}>Draft</Button>
+                        <Button
+                            colorScheme={'facebook'}
+                            onClick={() => changeFilter('all', id)}>All</Button>
                     </ButtonGroup>
                 </Center>
             </Box>
