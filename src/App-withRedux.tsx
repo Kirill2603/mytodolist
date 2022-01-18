@@ -4,34 +4,16 @@ import {useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
 import {Header} from "./components/header";
 import {Grid, GridItem} from "@chakra-ui/react";
-
-export type TasksType = {
-    id: string
-    title: string
-    status: number
-}
-
-export type FilterValuesType = "all" | "in progress" | "completed" | 'new' | 'draft'
-
-export type TodoListsType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
-
-export type TasksStateType = {
-    [key: string]: TasksType[]
-}
+import {TodolistDomainType} from "./state/todolists-reducer";
 
 function AppWithRedux() {
 
-    const todoLists = useSelector<AppRootState, Array<TodoListsType>>(state => state.todoLists)
-
+    const todoLists = useSelector<AppRootState, Array<TodolistDomainType>>(state => state.todoLists)
 
     return (
         <>
             <Header/>
-            <Grid templateColumns='repeat(3, 1fr)' gap={6} m={3}>
+            <Grid templateColumns='repeat(4, 1fr)' gap={6} m={3}>
                 {
                     todoLists.map((todoList) => {
                         return (
@@ -40,7 +22,8 @@ function AppWithRedux() {
                                     key={todoList.id}
                                     id={todoList.id}
                                     title={todoList.title}
-                                    filter={todoList.filter}/>
+                                    activeStatus={todoList.activeStatus}
+                                    />
                             </GridItem>
                         )
                     })

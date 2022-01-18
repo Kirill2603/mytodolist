@@ -4,24 +4,19 @@ import {EditableSpan} from "./EditableSpan";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../state/store";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/tasks-reducer";
-import {FilterValuesType} from "../App-withRedux";
 import {changeTodoListFilterAC, changeTodoListTitleAC, removeTodolistAC} from "../state/todolists-reducer";
 import {Box, Button, ButtonGroup, Center, CloseButton, Flex} from "@chakra-ui/react";
 import {StatusBadge} from "./status-badge";
+import {TaskStatuses, TaskType} from "../api/todolists-api";
 
-type TaskType = {
-    id: string
-    title: string
-    status: number
-}
 
 type TodoListPropsType = {
     id: string
     title: string
-    filter: FilterValuesType
+    activeStatus: TaskStatuses
 }
 
-export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, title, filter}) {
+export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, title, activeStatus}) {
 
     const tasks = useSelector<AppRootState, Array<TaskType>>(state => state.tasks[id])
     const dispatch = useDispatch()
@@ -34,22 +29,28 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
         dispatch(changeTodoListTitleAC(newTodoListTitle, id))
     }, [dispatch, id])
 
-    const changeFilter = useCallback((filter: FilterValuesType, todolistId: string) => {
-        dispatch(changeTodoListFilterAC(filter, todolistId))
-    }, [dispatch])
+    const changeStatus = useCallback(( activeStatus : TaskStatuses, todolistId: string) => {
+        dispatch(changeTodoListFilterAC(activeStatus, id))
+    }, [dispatch, id])
 
 
 
     let tasksForTodoList = tasks
 
-    if (filter === 'completed') {
-        tasksForTodoList = tasksForTodoList.filter(task => task.status)
+    if (activeStatus === TaskStatuses.New) {
+        tasksForTodoList = tasksForTodoList.filter(task => task.status === TaskStatuses.New)
     }
-    if (filter === 'new') {
-        tasksForTodoList = tasksForTodoList.filter(task => !task.status)
+    if (activeStatus === TaskStatuses.Completed) {
+        tasksForTodoList = tasksForTodoList.filter(task => task.status === TaskStatuses.Completed)
     }
-    if (filter === 'all') {
-        tasksForTodoList = tasksForTodoList.filter(task => task)
+    if (activeStatus === TaskStatuses.InProgress) {
+        tasksForTodoList = tasksForTodoList.filter(task => task.status === TaskStatuses.InProgress)
+    }
+    if (activeStatus === TaskStatuses.Draft) {
+        tasksForTodoList = tasksForTodoList.filter(task => task.status === TaskStatuses.Draft)
+    }
+    if (activeStatus === TaskStatuses.All) {
+        tasksForTodoList = tasks
     }
 
     return (
@@ -73,15 +74,10 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
                     }
 
                     return (
-                        <Flex p={1} justifyContent={"space-around"} alignItems={"center"}>
+                        <Flex p={1} justifyContent={"space-between"} alignItems={"center"}>
 
                             <StatusBadge taskStatus={task.status} changeTaskStatus={changeTaskStatus}/>
 
-                            {/*<Checkbox*/}
-                            {/*    isChecked={task.isDone}*/}
-                            {/*    type={"checkbox"}*/}
-                            {/*    onChange={(e) => dispatch(*/}
-                            {/*        changeTaskStatusAC(task.id, e.currentTarget.checked, id))}/>*/}
                             <EditableSpan
                                 onChangeTitle={onChangeTaskHandler}
                                 title={task.title}/>
@@ -91,25 +87,33 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
                     )
                 })}
 
-                <Center>
-                    <ButtonGroup isAttached variant='outline' pt={5} pb={5} size={'md'}>
+                <Flex direction={"column"} alignItems={'center'}>
+                    <ButtonGroup isAttached variant='outline' pt={1} pb={1}>
                         <Button
                             colorScheme={'blue'}
-                            onClick={() => changeFilter('new', id)}>New</Button>
+                            onClick={() => changeStatus(TaskStatuses.New, id)}
+                        >New</Button>
                         <Button
                             colorScheme={'yellow'}
-                            onClick={() => changeFilter('in progress', id)}>In progress</Button>
+                            onClick={() => changeStatus(TaskStatuses.InProgress, id)}
+                        >In progress</Button>
                         <Button
                             colorScheme={'teal'}
-                            onClick={() => changeFilter('completed', id)}>Completed</Button>
-                        <Button
-                            colorScheme={'facebook'}
-                            onClick={() => changeFilter('draft', id)}>Draft</Button>
-                        <Button
-                            colorScheme={'facebook'}
-                            onClick={() => changeFilter('all', id)}>All</Button>
+                            onClick={() => changeStatus(TaskStatuses.Completed, id)}
+                        >Completed</Button>
                     </ButtonGroup>
-                </Center>
+                        <ButtonGroup isAttached variant='outline' pt={1} pb={1}>
+                            <Button
+                                colorScheme={'facebook'}
+                                onClick={() => changeStatus(TaskStatuses.Draft, id)}
+                            >Draft</Button>
+                            <Button
+                                colorScheme={'white'}
+                                onClick={() => changeStatus(TaskStatuses.All, id)}
+                            >All</Button>
+                        </ButtonGroup>
+
+                </Flex>
             </Box>
         </Box>
     )
