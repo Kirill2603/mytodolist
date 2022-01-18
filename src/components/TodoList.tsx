@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../state/store";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/tasks-reducer";
 import {changeTodoListFilterAC, changeTodoListTitleAC, removeTodolistAC} from "../state/todolists-reducer";
-import {Box, Button, ButtonGroup, Center, CloseButton, Flex} from "@chakra-ui/react";
+import {Box, Button, ButtonGroup, Center, CloseButton, Divider, Flex} from "@chakra-ui/react";
 import {StatusBadge} from "./status-badge";
 import {TaskStatuses, TaskType} from "../api/todolists-api";
 
@@ -29,10 +29,9 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
         dispatch(changeTodoListTitleAC(newTodoListTitle, id))
     }, [dispatch, id])
 
-    const changeStatus = useCallback(( activeStatus : TaskStatuses, todolistId: string) => {
+    const changeStatus = useCallback((activeStatus: TaskStatuses, todolistId: string) => {
         dispatch(changeTodoListFilterAC(activeStatus, id))
     }, [dispatch, id])
-
 
 
     let tasksForTodoList = tasks
@@ -55,35 +54,37 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
 
     return (
 
-        <Box maxW='md' borderWidth='1px' borderRadius='lg' overflow='hidden' bgColor={'teal.800'} >
+        <Box maxW='md' borderWidth='1px' borderRadius='lg' overflow='hidden' bgColor={'teal.800'}>
 
             <Center><EditableSpan title={title} onChangeTitle={changeTodoListTitleHandler}/>
                 <CloseButton onClick={() => dispatch(removeTodolistAC(id))}/>
             </Center>
 
             <Box maxW='md' borderWidth='1px' borderRadius='lg' overflow='hidden' p={3} bgColor={'#1a202c'}>
-                <AddItemForm addItem={addTask} />
+                <AddItemForm addItem={addTask}/>
 
                 {tasksForTodoList.map((task) => {
 
                     const onChangeTaskHandler = (newTaskTitle: string) => {
                         dispatch(changeTaskTitleAC(newTaskTitle, task.id, id))
                     }
-                    const changeTaskStatus =(status: number) => {
+                    const changeTaskStatus = (status: number) => {
                         dispatch((changeTaskStatusAC(task.id, status, id)))
                     }
 
-                    return (
-                        <Flex p={1} justifyContent={"space-between"} alignItems={"center"}>
+                    return (<>
+                            <Flex p={1} justifyContent={"space-between"} alignItems={"center"}>
 
-                            <StatusBadge taskStatus={task.status} changeTaskStatus={changeTaskStatus}/>
 
-                            <EditableSpan
-                                onChangeTitle={onChangeTaskHandler}
-                                title={task.title}/>
-                            <CloseButton onClick={() => dispatch(removeTaskAC(task.id, id))}/>
-                        </Flex>
+                                <StatusBadge taskStatus={task.status} changeTaskStatus={changeTaskStatus}/>
 
+                                <EditableSpan
+                                    onChangeTitle={onChangeTaskHandler}
+                                    title={task.title}/>
+                                <CloseButton onClick={() => dispatch(removeTaskAC(task.id, id))}/>
+                            </Flex>
+                            <Divider/>
+                        </>
                     )
                 })}
 
@@ -102,16 +103,16 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
                             onClick={() => changeStatus(TaskStatuses.Completed, id)}
                         >Completed</Button>
                     </ButtonGroup>
-                        <ButtonGroup isAttached variant='outline' pt={1} pb={1}>
-                            <Button
-                                colorScheme={'facebook'}
-                                onClick={() => changeStatus(TaskStatuses.Draft, id)}
-                            >Draft</Button>
-                            <Button
-                                colorScheme={'white'}
-                                onClick={() => changeStatus(TaskStatuses.All, id)}
-                            >All</Button>
-                        </ButtonGroup>
+                    <ButtonGroup isAttached variant='outline' pt={1} pb={1}>
+                        <Button
+                            colorScheme={'facebook'}
+                            onClick={() => changeStatus(TaskStatuses.Draft, id)}
+                        >Draft</Button>
+                        <Button
+                            colorScheme={'white'}
+                            onClick={() => changeStatus(TaskStatuses.All, id)}
+                        >All</Button>
+                    </ButtonGroup>
 
                 </Flex>
             </Box>
