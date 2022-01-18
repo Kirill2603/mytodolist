@@ -1,15 +1,12 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import s from "./TodoList.module.css";
-import { IconButton, TextField} from "@mui/material";
-import {AddCircle} from "@mui/icons-material";
+import {Center, IconButton, Input} from "@chakra-ui/react";
+import {AddIcon} from "@chakra-ui/icons";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
 export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo (({addItem}) => {
-
-    console.log('addItemForm is called')
 
     const [newTaskTitle, setNewTaskTitle] = useState('')
     const [error, setError] = useState(false)
@@ -32,21 +29,20 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo (({addItem
     }
 
     return (
-        <div>
-            <TextField
-                label={"Enter your task"}
-                variant={"outlined"}
-                size={"small"}
-                error={error}
-                helperText={error && 'Title is required'}
+        <Center>
+            {/*<input*/}
+            {/*    value={newTaskTitle}*/}
+            {/*    onChange={onChangeTitleHandler}*/}
+            {/*    onKeyPress={onKeyPressHandler}/>*/}
+            <Input
+                variant='outline'
+                placeholder='Add new'
                 value={newTaskTitle}
-                className={error ? s.error : ''}
                 onChange={onChangeTitleHandler}
                 onKeyPress={onKeyPressHandler}/>
-            <IconButton
-                onClick={addTaskHandler}>
-                <AddCircle />
-            </IconButton>
-        </div>
+            <IconButton aria-label='Add'
+                        icon={<AddIcon />}
+                        onClick={addTaskHandler}/>
+        </Center>
     )
 } )
