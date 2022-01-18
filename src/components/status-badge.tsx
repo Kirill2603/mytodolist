@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
     Badge,
     Popover,
@@ -16,6 +16,9 @@ type StatusBadgePropsType = {
 }
 
 export const StatusBadge: React.FC<StatusBadgePropsType> = ({taskStatus, changeTaskStatus}) => {
+
+
+    const [selectedStatus , setSelectedStatus] = useState(taskStatus)
 
     let color, title
     switch (taskStatus) {
@@ -42,7 +45,7 @@ export const StatusBadge: React.FC<StatusBadgePropsType> = ({taskStatus, changeT
 
     return (
         <>
-            <Popover placement='right' matchWidth={true} size={'xs'}>
+            <Popover placement='right' matchWidth={true} size={'xs'} >
                 <PopoverTrigger>
                     <Badge colorScheme={color} cursor={"pointer"}>{title}</Badge>
                 </PopoverTrigger>
@@ -50,19 +53,23 @@ export const StatusBadge: React.FC<StatusBadgePropsType> = ({taskStatus, changeT
                     <PopoverHeader fontWeight='semibold'>Change status</PopoverHeader>
                     <PopoverCloseButton/>
                     <PopoverBody>
-                        <RadioGroup defaultValue={taskStatus}>
+                        <RadioGroup defaultValue={selectedStatus} value={selectedStatus}>
                             <Stack>
-                                <div onClick={() => {changeTaskStatus(TaskStatuses.New)}}>
-                                    <Radio value={0}>New</Radio>
+
+                                <div onClick={() => {changeTaskStatus(TaskStatuses.New)}} onChange={() => setSelectedStatus(0)}>
+                                    <Radio value={0} >New</Radio>
                                 </div>
-                                <div onClick={() => {changeTaskStatus(TaskStatuses.InProgress)}}>
-                                    <Radio value={1}>In progress</Radio>
+
+                                <div onClick={() => {changeTaskStatus(TaskStatuses.InProgress)}}  onChange={() => setSelectedStatus(1)}>
+                                    <Radio colorScheme='orange' value={1}>In progress</Radio>
                                 </div>
-                                <div onClick={() => {changeTaskStatus(TaskStatuses.Completed)}}>
-                                    <Radio value={2}>Completed</Radio>
+
+                                <div onClick={() => {changeTaskStatus(TaskStatuses.Completed)}}  onChange={() => setSelectedStatus(2)}>
+                                    <Radio colorScheme='green' value={2}>Completed</Radio>
                                 </div>
-                                <div  onClick={() => {changeTaskStatus(TaskStatuses.Draft)}}>
-                                    <Radio value={3}>Draft</Radio>
+
+                                <div  onClick={() => {changeTaskStatus(TaskStatuses.Draft)}}  onChange={() => setSelectedStatus(3)}>
+                                    <Radio colorScheme='facebook' value={3}>Draft</Radio>
                                 </div>
 
                             </Stack>
