@@ -1,6 +1,6 @@
 import {useDispatch} from "react-redux";
 import React, {useCallback} from "react";
-import {addTodoListAC, addTodoListTC} from "../state/todolists-reducer";
+import {addTodoListTC} from "../state/todolists-reducer";
 import {
     Button,
     Flex,

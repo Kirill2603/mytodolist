@@ -4,17 +4,14 @@ import {EditableSpan} from "./EditableSpan";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../state/store";
 import {
-    addTaskAC, addTaskTC,
-    changeTaskStatusAC,
+    addTaskTC, changeTaskStatusTC,
     changeTaskTitleAC,
     fetchTasksTC,
-    removeTaskAC,
     removeTaskTC
 } from "../state/tasks-reducer";
 import {
     changeTodoListActiveStatusAC,
-    changeTodoListTitleAC,
-    removeTodolistAC,
+    changeTodoListTitleTC,
     removeTodoListTC
 } from "../state/todolists-reducer";
 import {Box, Button, ButtonGroup, Center, CloseButton, Divider, Flex} from "@chakra-ui/react";
@@ -35,19 +32,19 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
 
     useEffect(() => {
         dispatch(fetchTasksTC(id))
-    }, [])
+    }, [dispatch, id])
 
     const addTask = useCallback((title: string) => {
         dispatch(addTaskTC(id, title))
     }, [dispatch, id])
 
     const changeTodoListTitleHandler = useCallback((newTodoListTitle: string) => {
-        dispatch(changeTodoListTitleAC(newTodoListTitle, id))
+        dispatch(changeTodoListTitleTC(id, newTodoListTitle))
     }, [dispatch, id])
 
     const changeStatus = useCallback((activeStatus: TaskStatuses, id: string) => {
         dispatch(changeTodoListActiveStatusAC(activeStatus, id))
-    }, [dispatch, id])
+    }, [dispatch])
 
 
     let tasksForTodoList = tasks
@@ -84,8 +81,8 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
                     const onChangeTaskHandler = (newTaskTitle: string) => {
                         dispatch(changeTaskTitleAC(newTaskTitle, task.id, id))
                     }
-                    const changeTaskStatus = (status: number) => {
-                        dispatch((changeTaskStatusAC(task.id, status, id)))
+                    const changeTaskStatus = (status: TaskStatuses) => {
+                        dispatch((changeTaskStatusTC(id, task.id, status)))
                     }
 
                     return (<>

@@ -14,7 +14,7 @@ function AppWithRedux() {
 
     useEffect(() => {
         dispatch(fetchTodoListTC())
-    }, [])
+    }, [dispatch])
 
     return (
         <>
