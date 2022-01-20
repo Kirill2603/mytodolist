@@ -1,6 +1,6 @@
 import {useDispatch} from "react-redux";
 import React, {useCallback} from "react";
-import {addTodoListAC} from "../state/todolists-reducer";
+import {addTodoListAC, addTodoListTC} from "../state/todolists-reducer";
 import {
     Button,
     Flex,
@@ -19,7 +19,7 @@ export const Header = () => {
 
     const dispatch = useDispatch()
     const addTodoList = useCallback((title: string) => {
-        const action = addTodoListAC(title)
+        const action = addTodoListTC(title)
         dispatch(action)
     }, [dispatch])
 

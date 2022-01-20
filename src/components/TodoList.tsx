@@ -1,10 +1,22 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../state/store";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/tasks-reducer";
-import {changeTodoListFilterAC, changeTodoListTitleAC, removeTodolistAC} from "../state/todolists-reducer";
+import {
+    addTaskAC, addTaskTC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    fetchTasksTC,
+    removeTaskAC,
+    removeTaskTC
+} from "../state/tasks-reducer";
+import {
+    changeTodoListActiveStatusAC,
+    changeTodoListTitleAC,
+    removeTodolistAC,
+    removeTodoListTC
+} from "../state/todolists-reducer";
 import {Box, Button, ButtonGroup, Center, CloseButton, Divider, Flex} from "@chakra-ui/react";
 import {StatusBadge} from "./status-badge";
 import {TaskStatuses, TaskType} from "../api/todolists-api";
@@ -21,16 +33,20 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
     const tasks = useSelector<AppRootState, Array<TaskType>>(state => state.tasks[id])
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        dispatch(fetchTasksTC(id))
+    }, [])
+
     const addTask = useCallback((title: string) => {
-        dispatch(addTaskAC(title, id))
+        dispatch(addTaskTC(id, title))
     }, [dispatch, id])
 
     const changeTodoListTitleHandler = useCallback((newTodoListTitle: string) => {
         dispatch(changeTodoListTitleAC(newTodoListTitle, id))
     }, [dispatch, id])
 
-    const changeStatus = useCallback((activeStatus: TaskStatuses, todolistId: string) => {
-        dispatch(changeTodoListFilterAC(activeStatus, id))
+    const changeStatus = useCallback((activeStatus: TaskStatuses, id: string) => {
+        dispatch(changeTodoListActiveStatusAC(activeStatus, id))
     }, [dispatch, id])
 
 
@@ -57,7 +73,7 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
         <Box maxW='md' borderWidth='1px' borderRadius='lg' overflow='hidden' bgColor={'teal.800'}>
 
             <Center><EditableSpan title={title} onChangeTitle={changeTodoListTitleHandler}/>
-                <CloseButton onClick={() => dispatch(removeTodolistAC(id))}/>
+                <CloseButton onClick={() => dispatch(removeTodoListTC(id))}/>
             </Center>
 
             <Box maxW='md' borderWidth='1px' borderRadius='lg' overflow='hidden' p={3} bgColor={'#1a202c'}>
@@ -73,15 +89,14 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
                     }
 
                     return (<>
-                            <Flex p={1} justifyContent={"space-between"} alignItems={"center"}>
-
+                            <Flex p={1} justifyContent={"space-between"} alignItems={"center"} key={task.id}>
 
                                 <StatusBadge taskStatus={task.status} changeTaskStatus={changeTaskStatus}/>
 
                                 <EditableSpan
                                     onChangeTitle={onChangeTaskHandler}
                                     title={task.title}/>
-                                <CloseButton onClick={() => dispatch(removeTaskAC(task.id, id))}/>
+                                <CloseButton onClick={() => dispatch(removeTaskTC(id, task.id))}/>
                             </Flex>
                             <Divider/>
                         </>
