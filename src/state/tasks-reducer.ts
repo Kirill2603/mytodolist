@@ -16,6 +16,8 @@ type ActionsType =
     | ReturnType<typeof setTasksAC>
 
 
+
+
 type TasksStateType = {
     [key: string]: TaskType[]
 }
