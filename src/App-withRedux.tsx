@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {TodoList} from "./components/TodoList";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
 import {Header} from "./components/header";
 import {Grid, GridItem} from "@chakra-ui/react";
-import {fetchTodoListTC, TodolistDomainType} from "./state/todolists-reducer";
+import {addTodoListTC, fetchTodoListTC, TodolistDomainType} from "./state/todolists-reducer";
+import {AddItemForm} from "./components/AddItemForm";
 
 function AppWithRedux() {
 
@@ -16,13 +17,21 @@ function AppWithRedux() {
         dispatch(fetchTodoListTC())
     }, [dispatch])
 
+    const addTodoList = useCallback((title: string) => {
+        const action = addTodoListTC(title)
+        dispatch(action)
+    }, [dispatch])
+
     return (
         <>
             <Header/>
-            <Grid templateColumns='repeat(3, 1fr)' gap={6} m={3}>
+            <Grid templateColumns='repeat(4, 1fr)' gap={6} m={3} alignItems={"start"}>
+
+                <AddItemForm addItem={addTodoList}/>
+
                 {
                     todoLists.map((todoList) => {
-                        return (
+                        return (<>
                             <GridItem key={todoList.id}>
                                 <TodoList
                                     id={todoList.id}
@@ -30,9 +39,11 @@ function AppWithRedux() {
                                     activeStatus={todoList.activeStatus}
                                     />
                             </GridItem>
+                            </>
                         )
                     })
                 }
+
             </Grid>
         </>
     );

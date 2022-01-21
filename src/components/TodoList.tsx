@@ -67,9 +67,10 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
 
     return (
 
-        <Box maxW='md' borderWidth='1px' borderRadius='lg' overflow='hidden' bgColor={'teal.800'}>
+        <Box maxW='xs' borderWidth='1px' borderRadius='lg' overflow='hidden' bgColor={'teal.800'}>
 
-            <Center><EditableSpan title={title} onChangeTitle={changeTodoListTitleHandler}/>
+            <Center>
+                <EditableSpan title={title} onChangeTitle={changeTodoListTitleHandler}/>
                 <CloseButton onClick={() => dispatch(removeTodoListTC(id))}/>
             </Center>
 
@@ -100,8 +101,8 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
                     )
                 })}
 
-                <Flex direction={"column"} alignItems={'center'}>
-                    <ButtonGroup isAttached variant='outline' pt={1} pb={1}>
+                <Flex direction={"column"} alignItems={'center'} pt={3}>
+                    <ButtonGroup isAttached variant='outline' pt={1} pb={1} size={"xs"}>
                         <Button
                             colorScheme={'blue'}
                             onClick={() => changeStatus(TaskStatuses.New, id)}
@@ -114,8 +115,6 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
                             colorScheme={'teal'}
                             onClick={() => changeStatus(TaskStatuses.Completed, id)}
                         >Completed</Button>
-                    </ButtonGroup>
-                    <ButtonGroup isAttached variant='outline' pt={1} pb={1}>
                         <Button
                             colorScheme={'facebook'}
                             onClick={() => changeStatus(TaskStatuses.Draft, id)}
@@ -125,10 +124,10 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
                             onClick={() => changeStatus(TaskStatuses.All, id)}
                         >All</Button>
                     </ButtonGroup>
-
                 </Flex>
             </Box>
         </Box>
+
     )
 })
 

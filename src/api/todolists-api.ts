@@ -7,7 +7,7 @@ export type TodoListsType = {
     order: number
 }
 // ResponseType<Уточняет объект D при объявлении типа>
-type ResponseType< D = {} > = {
+type ResponseType<D = {}> = {
     resultCode: number
     messages: Array<string>
     fieldsErrors: Array<string>
@@ -18,7 +18,7 @@ export enum TaskStatuses {
     New = 0,
     InProgress = 1,
     Completed = 2,
-    Draft =3,
+    Draft = 3,
     All = 5
 }
 
@@ -87,12 +87,12 @@ export const todoListsAPI = {
         return instance.get<GetTasksResponseType>(`todo-lists/${todoLIstID}/tasks`)
     },
     addTask(todoLIstID: string, title: string) {
-        return instance.post<ResponseType<{item: TaskType}>>(`todo-lists/${todoLIstID}/tasks`, {title: title})
+        return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todoLIstID}/tasks`, {title: title})
     },
     deleteTask(todoLIstID: string, taskID: string) {
         return instance.delete<ResponseType>(`todo-lists/${todoLIstID}/tasks/${taskID}`)
     },
-    changeTask(todoLIstID: string, taskID: string, model: UpdateTaskModelType) {
+    updateTask(todoLIstID: string, taskID: string, model: UpdateTaskModelType) {
         return instance.put<ResponseType<TaskType>>(`todo-lists/${todoLIstID}/tasks/${taskID}`, model)
     }
 }

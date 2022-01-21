@@ -47,7 +47,7 @@ export const StatusBadge: React.FC<StatusBadgePropsType> = ({taskStatus, changeT
         <>
             <Popover placement='right' matchWidth={true} size={'xs'} >
                 <PopoverTrigger>
-                    <Badge colorScheme={color} cursor={"pointer"}>{title}</Badge>
+                    <Badge colorScheme={color} cursor={"pointer"} variant={"subtle"}>{title}</Badge>
                 </PopoverTrigger>
                 <PopoverContent width={'160px'}>
                     <PopoverHeader fontWeight='semibold'>Change status</PopoverHeader>

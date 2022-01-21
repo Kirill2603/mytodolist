@@ -1,8 +1,6 @@
-import {useDispatch} from "react-redux";
-import React, {useCallback} from "react";
-import {addTodoListTC} from "../state/todolists-reducer";
+import React from "react";
 import {
-    Button,
+    Button, ButtonGroup,
     Flex,
     Heading,
     IconButton,
@@ -13,15 +11,8 @@ import {
     useColorMode
 } from "@chakra-ui/react";
 import {ChevronDownIcon, SunIcon} from "@chakra-ui/icons";
-import {AddItemForm} from "./AddItemForm";
 
 export const Header = () => {
-
-    const dispatch = useDispatch()
-    const addTodoList = useCallback((title: string) => {
-        const action = addTodoListTC(title)
-        dispatch(action)
-    }, [dispatch])
 
     const {toggleColorMode} = useColorMode()
 
@@ -29,8 +20,9 @@ export const Header = () => {
         <>
             <Flex justifyContent={"space-between"} p={5}>
                 <Heading>ToDo List</Heading>
-                <AddItemForm addItem={addTodoList}/>
+
                 <Flex>
+                    <ButtonGroup isAttached variant='outline'>
                     <IconButton aria-label={"set mode"} icon={<SunIcon/>} onClick={toggleColorMode}/>
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
@@ -44,6 +36,7 @@ export const Header = () => {
                             <MenuItem>Attend a Workshop</MenuItem>
                         </MenuList>
                     </Menu>
+                    </ButtonGroup>
                 </Flex>
             </Flex>
         </>
