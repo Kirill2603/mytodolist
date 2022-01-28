@@ -67,14 +67,14 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
 
     return (
 
-        <Box maxW='xs' borderWidth='1px' borderRadius='lg' overflow='hidden' bgColor={'teal.800'}>
+        <Box maxW='xs' borderWidth='1px' borderRadius='lg' overflow='hidden'>
 
             <Center>
                 <EditableSpan title={title} onChangeTitle={changeTodoListTitleHandler}/>
                 <CloseButton onClick={() => dispatch(removeTodoListTC(id))}/>
             </Center>
 
-            <Box maxW='md' borderWidth='1px' borderRadius='lg' overflow='hidden' p={3} bgColor={'#1a202c'}>
+            <Box maxW='md' borderWidth='1px' borderRadius='lg' overflow='hidden' p={3}>
                 <AddItemForm addItem={addTask}/>
 
                 {tasksForTodoList.map((task) => {
@@ -86,7 +86,7 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
                         dispatch((changeTaskStatusTC(id, task.id, status)))
                     }
 
-                    return (<>
+                    return (<div key={task.id}>
                             <Flex p={1} justifyContent={"space-between"} alignItems={"center"} key={task.id}>
 
                                 <StatusBadge taskStatus={task.status} changeTaskStatus={changeTaskStatus}/>
@@ -97,7 +97,7 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
                                 <CloseButton onClick={() => dispatch(removeTaskTC(id, task.id))}/>
                             </Flex>
                             <Divider/>
-                        </>
+                        </div>
                     )
                 })}
 

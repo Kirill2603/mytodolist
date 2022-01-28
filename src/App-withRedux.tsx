@@ -3,7 +3,7 @@ import {TodoList} from "./components/TodoList";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
 import {Header} from "./components/header";
-import {Grid, GridItem} from "@chakra-ui/react";
+import {Grid, GridItem, Progress} from "@chakra-ui/react";
 import {addTodoListTC, fetchTodoListTC, TodolistDomainType} from "./state/todolists-reducer";
 import {AddItemForm} from "./components/AddItemForm";
 
@@ -25,13 +25,15 @@ function AppWithRedux() {
     return (
         <>
             <Header/>
+            <Progress size='xs' isIndeterminate />
+
             <Grid templateColumns='repeat(4, 1fr)' gap={6} m={3} alignItems={"start"}>
 
-                <AddItemForm addItem={addTodoList}/>
+                <AddItemForm addItem={addTodoList} />
 
                 {
                     todoLists.map((todoList) => {
-                        return (<>
+                        return (
                             <GridItem key={todoList.id}>
                                 <TodoList
                                     id={todoList.id}
@@ -39,12 +41,12 @@ function AppWithRedux() {
                                     activeStatus={todoList.activeStatus}
                                     />
                             </GridItem>
-                            </>
                         )
                     })
                 }
 
             </Grid>
+
         </>
     );
 }
