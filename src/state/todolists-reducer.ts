@@ -1,6 +1,6 @@
 import {TaskStatuses, todoListsAPI, TodoListsType} from "../api/todolists-api";
 import {Dispatch} from "redux";
-import {AppActionsType, setTaskStatusAC, setTodoListStatusAC} from "./app-reducer";
+import {AppActionsType, setTodoListStatusAC} from "./app-reducer";
 
 type ActionsType =
     | ReturnType<typeof removeTodolistAC>

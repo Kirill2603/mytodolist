@@ -13,6 +13,8 @@ import {
 import {ChevronDownIcon, SunIcon} from "@chakra-ui/icons";
 import {useSelector} from "react-redux";
 import {AppRootState} from "../state/store";
+import {Link} from "react-router-dom";
+import {path} from "../App-withRedux";
 
 export const Header = () => {
 
@@ -36,11 +38,8 @@ export const Header = () => {
                             Menu
                         </MenuButton>
                         <MenuList>
-                            <MenuItem>Login</MenuItem>
-                            <MenuItem>Create a Copy</MenuItem>
-                            <MenuItem>Mark as Draft</MenuItem>
-                            <MenuItem>Delete</MenuItem>
-                            <MenuItem>Attend a Workshop</MenuItem>
+                            <MenuItem as={Link} to={path.login}>Login</MenuItem>
+                            <MenuItem as={Link} to={path.todo}>Todo Lists</MenuItem>
                         </MenuList>
                     </Menu>
                     </ButtonGroup>
