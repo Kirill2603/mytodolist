@@ -70,7 +70,6 @@ export const fetchTodoListTC = () => (dispatch: Dispatch<ActionsType | AppAction
           .then(res => {
               dispatch(setTodoListsAC(res.data))
               dispatch(setTodoListStatusAC('succeeded'))
-
           })
   }
 
