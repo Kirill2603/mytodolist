@@ -14,7 +14,7 @@ import {
     changeTodoListTitleTC,
     removeTodoListTC
 } from "../state/todolists-reducer";
-import {Box, Button, ButtonGroup, Center, CloseButton, Divider, Flex} from "@chakra-ui/react";
+import {Box, Button, ButtonGroup, Center, CircularProgress, CloseButton, Divider, Flex} from "@chakra-ui/react";
 import {StatusBadge} from "./status-badge";
 import {TaskStatuses, TaskType} from "../api/todolists-api";
 
@@ -46,6 +46,9 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
         dispatch(changeTodoListActiveStatusAC(activeStatus, id))
     }, [dispatch])
 
+
+    const taskStatus = useSelector<AppRootState, 'idle' | 'loading' | 'succeeded' | 'failed'>((state) =>
+        state.app.TodoListsStatus)
 
     let tasksForTodoList = tasks
 
@@ -87,6 +90,7 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
                     }
 
                     return (<div key={task.id}>
+
                             <Flex p={1} justifyContent={"space-between"} alignItems={"center"} key={task.id}>
 
                                 <StatusBadge taskStatus={task.status} changeTaskStatus={changeTaskStatus}/>
@@ -100,6 +104,16 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
                         </div>
                     )
                 })}
+
+
+                {
+                    taskStatus === "loading"
+                    &&
+                    <Center p={5}>
+                        <CircularProgress size={100} isIndeterminate color='green.300'/>
+                    </Center>
+                }
+
 
                 <Flex direction={"column"} alignItems={'center'} pt={3}>
                     <ButtonGroup isAttached variant='outline' pt={1} pb={1} size={"xs"}>

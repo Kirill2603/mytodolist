@@ -7,14 +7,21 @@ import {
     Menu,
     MenuButton,
     MenuItem,
-    MenuList,
+    MenuList, Progress,
     useColorMode
 } from "@chakra-ui/react";
 import {ChevronDownIcon, SunIcon} from "@chakra-ui/icons";
+import {useSelector} from "react-redux";
+import {AppRootState} from "../state/store";
 
 export const Header = () => {
 
     const {toggleColorMode} = useColorMode()
+
+    const TodoListsStatus = useSelector<AppRootState, 'idle' | 'loading' | 'succeeded' | 'failed'>( (state) =>
+        state.app.TodoListsStatus)
+
+
 
     return (
         <>
@@ -39,6 +46,15 @@ export const Header = () => {
                     </ButtonGroup>
                 </Flex>
             </Flex>
+
+            {TodoListsStatus === 'loading'
+                &&
+                <Progress
+                style={{position: "absolute", zIndex: 10, width: '100%', height: '5px', top: 0}}
+                size='xs'
+                isIndeterminate />}
+
+
         </>
     )
 }
