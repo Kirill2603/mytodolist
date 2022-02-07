@@ -1,6 +1,11 @@
 import React from "react";
 import {Button, Checkbox, Grid, GridItem, Input, InputGroup, InputRightElement, Link} from "@chakra-ui/react";
-import { Formik, Field, Form, FormikHelpers } from 'formik';
+import {Formik, Field, Form} from 'formik';
+import {useDispatch, useSelector} from "react-redux";
+import {loginTC} from "../state/auth-reducer";
+import {AppRootStateType} from "../state/store";
+import {useNavigate} from 'react-router-dom'
+import {path} from "../App-withRedux";
 
 interface Values {
     email: string;
@@ -12,10 +17,17 @@ export const LoginForm = () => {
 
     const [show, setShow] = React.useState(false)
     const handleClick = () => setShow(!show)
+    const dispatch = useDispatch()
+
+    // const isLoggedIn = useSelector<AppRootStateType , boolean>(state => state.auth.isLoggedIn)
+    //
+    // const navigate = useNavigate()
+    //
+    // isLoggedIn && navigate(path.todo)
 
     return (
         <>
-
+            {}
 
             <Grid justifyContent={'center'}>
 
@@ -35,14 +47,11 @@ export const LoginForm = () => {
                         password: '',
                         rememberMe: false,
                     }}
-                    onSubmit={(
-                        values: Values,
-                        {setSubmitting}: FormikHelpers<Values>
-                    ) => {
-                        setTimeout(() => {
-                            alert(JSON.stringify(values, null, 2));
-                            setSubmitting(false);
-                        }, 500);
+                    onSubmit={(values: Values) => {
+                            dispatch(loginTC(values))
+
+                            // alert(JSON.stringify(values, null, 2));
+                            // setSubmitting(false);
                     }}
                 >
                     <Form>
@@ -58,6 +67,7 @@ export const LoginForm = () => {
                             <InputGroup size='md'>
                                 <Field as={Input}
                                     pr='4.5rem'
+                                       suggested="current-password"
                                        name="password"
                                     type={show ? 'text' : 'password'}
                                     placeholder='Enter password'

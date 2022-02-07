@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import {ChevronDownIcon, SunIcon} from "@chakra-ui/icons";
 import {useSelector} from "react-redux";
-import {AppRootState} from "../state/store";
+import {AppRootStateType} from "../state/store";
 import {Link} from "react-router-dom";
 import {path} from "../App-withRedux";
 
@@ -20,8 +20,8 @@ export const Header = () => {
 
     const {toggleColorMode} = useColorMode()
 
-    const TodoListsStatus = useSelector<AppRootState, 'idle' | 'loading' | 'succeeded' | 'failed'>( (state) =>
-        state.app.TodoListsStatus)
+    // const TodoListsStatus = useSelector<AppRootStateType, 'idle' | 'loading' | 'succeeded' | 'failed'>( (state) =>
+    //     state.app.TodoListsStatus)
 
 
 
@@ -46,12 +46,12 @@ export const Header = () => {
                 </Flex>
             </Flex>
 
-            {TodoListsStatus === 'loading'
-                &&
-                <Progress
-                style={{position: "absolute", zIndex: 10, width: '100%', height: '5px', top: 0}}
-                size='xs'
-                isIndeterminate />}
+            {/*{TodoListsStatus === 'loading'*/}
+            {/*    &&*/}
+            {/*    <Progress*/}
+            {/*    style={{position: "absolute", zIndex: 10, width: '100%', height: '5px', top: 0}}*/}
+            {/*    size='xs'*/}
+            {/*    isIndeterminate />}*/}
 
 
         </>

@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "../state/store";
+import {useDispatch, useSelector,} from "react-redux";
+import {AppRootStateType} from "../state/store";
 import {
     addTaskTC, changeTaskStatusTC,
     changeTaskTitleAC,
@@ -27,7 +27,7 @@ type TodoListPropsType = {
 
 export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, title, activeStatus}) {
 
-    const tasks = useSelector<AppRootState, Array<TaskType>>(state => state.tasks[id])
+    const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[id])
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -43,12 +43,12 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
     }, [dispatch, id])
 
     const changeStatus = useCallback((activeStatus: TaskStatuses, id: string) => {
-        dispatch(changeTodoListActiveStatusAC(activeStatus, id))
+        dispatch(changeTodoListActiveStatusAC({todoListId: id, status: activeStatus}))
     }, [dispatch])
 
 
-    const taskStatus = useSelector<AppRootState, 'idle' | 'loading' | 'succeeded' | 'failed'>((state) =>
-        state.app.TodoListsStatus)
+    // const taskStatus = useSelector<AppRootStateType, 'idle' | 'loading' | 'succeeded' | 'failed'>((state) =>
+    //     state.app.todoListsStatus)
 
     let tasksForTodoList = tasks
 
@@ -83,7 +83,7 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
                 {tasksForTodoList.map((task) => {
 
                     const onChangeTaskHandler = (newTaskTitle: string) => {
-                        dispatch(changeTaskTitleAC(newTaskTitle, task.id, id))
+                        dispatch(changeTaskTitleAC({title: newTaskTitle, id: task.id, todoListId: id}))
                     }
                     const changeTaskStatus = (status: TaskStatuses) => {
                         dispatch((changeTaskStatusTC(id, task.id, status)))
@@ -106,13 +106,13 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(function ({id, t
                 })}
 
 
-                {
-                    taskStatus === "loading"
-                    &&
-                    <Center p={5}>
-                        <CircularProgress size={100} isIndeterminate color='green.300'/>
-                    </Center>
-                }
+                {/*{*/}
+                {/*    taskStatus === "loading"*/}
+                {/*    &&*/}
+                {/*    <Center p={5}>*/}
+                {/*        <CircularProgress size={100} isIndeterminate color='green.300'/>*/}
+                {/*    </Center>*/}
+                {/*}*/}
 
 
                 <Flex direction={"column"} alignItems={'center'} pt={3}>

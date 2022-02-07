@@ -1,51 +1,46 @@
-export type initialStateType = {
-    TodoListsStatus: 'idle' | 'loading' | 'succeeded' | 'failed'
-    TodoListsError: string | null
-    TasksStatus: 'idle' | 'loading' | 'succeeded' | 'failed'
-    TasksError: string | null
+import {Dispatch} from "redux";
+import {authAPI} from "../api/todolists-api";
+import {setIsLoggedInAC} from "./auth-reducer";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+
+
+const initialState = {
+    todoListsStatus: 'idle',
+    todoListsError: null,
+    tasksStatus: 'idle',
+    tasksError: null,
+    initialised: false
 }
 
-const initialState: initialStateType = {
-    TodoListsStatus: 'idle',
-    TodoListsError: null,
-    TasksStatus: 'idle',
-    TasksError: null
-}
 
-type InitialStateType = typeof initialState
-
-export const appReducer = (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {
-    switch (action.type) {
-        case 'TODOLIST/SET-STATUS':
-            return {...state, TodoListsStatus: action.TodoListStatus}
-        case 'TODOLIST/SET-ERROR':
-            return {...state, TodoListsError: action.TodoListError}
-        case 'TASK/SET-STATUS':
-            return {...state, TodoListsStatus: action.TaskStatus}
-        case 'TASK/SET-ERROR':
-            return {...state, TodoListsError: action.TaskError}
-        default:
-            return state
+const slice = createSlice({
+    name: 'app',
+    initialState: initialState,
+    reducers: {
+        setTodoListErrorAC (state, action: PayloadAction<{todoListError: string | null}>) {
+            return {...state, todoListError: action.payload.todoListError}
+        },
+        setTodoListStatusAC (state, action: PayloadAction<{todoListStatus: 'idle' | 'loading' | 'succeeded' | 'failed'}>) {
+           return  {...state, todoListStatus: action.payload.todoListStatus}
+        },
+        setTaskErrorAC (state, action: PayloadAction<{taskError: string | null}>) {
+            return {...state, taskError: action.payload.taskError}
+        },
+        setTaskStatusAC (state, action: PayloadAction<{taskStatus: 'idle' | 'loading' | 'succeeded' | 'failed'}>) {
+            return {...state, taskStatus: action.payload.taskStatus}
+        },
+        setAppInitialisedAC (state, action: PayloadAction<{initialised: boolean}>) {
+            return {...state, initialised: action.payload.initialised}
+        }
     }
+})
+
+export const appReducer = slice.reducer
+export const {setAppInitialisedAC, setTodoListStatusAC, setTodoListErrorAC, setTaskErrorAC, setTaskStatusAC} = slice.actions
+
+export const initialiseAppTC = () => (dispatch: Dispatch) => {
+    authAPI.me().then(res => {
+        res.data.resultCode === 0 && dispatch(setAppInitialisedAC({initialised: true}))
+        dispatch(setIsLoggedInAC({value: true}))
+    })
 }
-
-export const setTodoListErrorAC = (TodoListError: string | null) =>
-    ({type: 'TODOLIST/SET-ERROR', TodoListError} as const)
-export const setTodoListStatusAC = (TodoListStatus: 'idle' | 'loading' | 'succeeded' | 'failed') =>
-    ({type: 'TODOLIST/SET-STATUS',TodoListStatus} as const)
-export const setTaskErrorAC = (TaskError: string | null) =>
-    ({type: 'TASK/SET-ERROR', TaskError} as const)
-export const setTaskStatusAC = (TaskStatus: 'idle' | 'loading' | 'succeeded' | 'failed') =>
-    ({type: 'TASK/SET-STATUS',TaskStatus} as const)
-
-
-type SetTodoListErrorActionType = ReturnType<typeof setTodoListErrorAC>
-type SetStatusActionType = ReturnType<typeof setTodoListStatusAC>
-type SetTaskErrorActionType = ReturnType<typeof setTaskErrorAC>
-type SetTaskStatusActionType = ReturnType<typeof setTaskStatusAC>
-
-export type AppActionsType =
-    | SetTodoListErrorActionType
-    | SetStatusActionType
-    | SetTaskErrorActionType
-    | SetTaskStatusActionType
